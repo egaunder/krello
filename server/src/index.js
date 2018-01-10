@@ -11,16 +11,13 @@ import keys from './config/keys';
 // *** Routes *** //
 import ApiRoutes from './routes/ApiRoutes';
 
-const app = express();
+
 const ENVIRONMENT = process.env.NODE_ENV || "development";
 const PORT = process.env.PORT || 5000;
 
-if (ENVIRONMENT === "production") {
-  mongoose.connect(keys.mongoUriProd);
-} else {
-  mongoose.connect(keys.mongoUriTest);
-}
+initializeDb(keys, ENVIRONMENT);
 
+const app = express();
 app.use(compression());
 app.use(cookieParser());
 app.use(expressDevice.capture());
@@ -31,3 +28,13 @@ app.use(bodyParser.urlencoded({ limit: '20mb', extended: true }));
 app.use('/api/v1/', ApiRoutes);
 
 app.listen(PORT, () => console.log(`listening on port ${PORT}`));
+
+
+async function initializeDb(keys, env) {
+  mongoose.Promise = global.Promise;
+  if (env === "production") {
+    await  mongoose.connect(keys.mongoUriProd, { useMongoClient: true });
+  } else {
+    await mongoose.connect(keys.mongoUriTest, { useMongoClient: true });
+  }
+}
