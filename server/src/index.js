@@ -4,13 +4,22 @@ import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import bodyParser from 'body-parser'
 import expressDevice from 'express-device';
+import mongoose, { mongo } from 'mongoose';
+
+import keys from './config/keys';
 
 // *** Routes *** //
 import ApiRoutes from './routes/ApiRoutes';
 
 const app = express();
 const ENVIRONMENT = process.env.NODE_ENV || "development";
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 5000;
+
+if (ENVIRONMENT === "production") {
+  mongoose.connect(keys.mongoUriProd);
+} else {
+  mongoose.connect(keys.mongoUriTest);
+}
 
 app.use(compression());
 app.use(cookieParser());
