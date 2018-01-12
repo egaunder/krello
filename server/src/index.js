@@ -32,9 +32,5 @@ app.listen(PORT, () => console.log(`listening on port ${PORT}`));
 
 async function initializeDb(keys, env) {
   mongoose.Promise = global.Promise;
-  if (env === "production") {
     await  mongoose.connect(keys.mongoUriProd, { useMongoClient: true });
-  } else {
-    await mongoose.connect(keys.mongoUriTest, { useMongoClient: true });
-  }
 }
