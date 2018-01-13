@@ -6,7 +6,7 @@
   "scripts": {
     "start": "NODE_ENV=development nodemon --watch ./ --exec babel-node -- src/index.js",
     "build": "rimraf ../dist && babel ./ --out-dir ../dist/ --ignore ./node_modules, ./.babelrc, ./.package.json, ./npm-debug.log, -d ../dist &&./models/config.json dist/models/",
-    "test": "NODE_ENV=test jest"
+    "test": "NODE_ENV=test jest --watch"
   },
   "author": "",
   "license": "ISC",
