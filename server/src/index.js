@@ -2,20 +2,25 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
-import bodyParser from 'body-parser'
+import bodyParser from 'body-parser';
 import expressDevice from 'express-device';
-import mongoose, { mongo } from 'mongoose';
+import mongoose from 'mongoose';
 
-import keys from './config/keys';
+import configKeys from './config/keys';
 
 // *** Routes *** //
 import ApiRoutes from './routes/ApiRoutes';
 
 
-const ENVIRONMENT = process.env.NODE_ENV || "development";
+const ENVIRONMENT = process.env.NODE_ENV || 'development';
 const PORT = process.env.PORT || 5000;
 
-initializeDb(keys, ENVIRONMENT);
+async function initializeDb(keys) {
+  mongoose.Promise = global.Promise;
+  await mongoose.connect(keys.mongoUriProd, { useMongoClient: true });
+}
+
+initializeDb(configKeys, ENVIRONMENT);
 
 const app = express();
 app.use(compression());
@@ -29,8 +34,3 @@ app.use('/api/v1/', ApiRoutes);
 
 app.listen(PORT, () => console.log(`listening on port ${PORT}`));
 
-
-async function initializeDb(keys, env) {
-  mongoose.Promise = global.Promise;
-    await  mongoose.connect(keys.mongoUriProd, { useMongoClient: true });
-}
