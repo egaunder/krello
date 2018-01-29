@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 import keys from '../config/keys';
 
+mongoose.Promise = global.Promise;
+
 export function initializeTestDb() {
   try {
     mongoose.connect(keys.mongoUriTest, { useMongoClient: true });

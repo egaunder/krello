@@ -11,8 +11,6 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  firstName: String,
-  lastName: String,
   password_hash: {
     type: String,
     required: true,
@@ -21,7 +19,6 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-
 });
 
 export default mongoose.model('users', userSchema);

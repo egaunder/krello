@@ -1,8 +1,7 @@
 module.exports = {
-    "extends": "airbnb",
-    "env": {
-        "jest": true
-    },
-    "rules": {
-    }
+  extends: 'airbnb',
+  env: {
+    jest: true,
+  },
+  rules: {},
 };
