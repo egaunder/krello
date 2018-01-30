@@ -33,9 +33,9 @@ export default (app) => {
               console.error(err);
             }
 
-            const joe = new User({ username, email, password_hash: hash });
+            const newUser = new User({ username, email, password_hash: hash });
 
-            joe.save((err, user) => {
+            newUser.save((err, user) => {
               if (err) {
                 return res.status(500).json({ success: false, message: 'The server encountered an internal error' });
               }
@@ -44,11 +44,13 @@ export default (app) => {
             });
           });
         });
+      } else {
+        return res.status(422).json({ success: false, message: 'User account already exist' });
       }
+
     } catch (err) {
       console.error(err);
       return res.status(500).json({ success: false, message: 'The server encountered an internal error' });
     }
-    // no return statement
-  });
+  })
 };
