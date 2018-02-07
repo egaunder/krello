@@ -13,7 +13,7 @@ import './services/passport';
 
 
 // *** Routes *** //
-import ApiRoutes from './routes/ApiRoutes';
+import apiRoutes from './routes/ApiRoutes';
 import authRoutes from './routes/AuthRoutes';
 
 const startServer = async () => {
@@ -45,7 +45,7 @@ const startServer = async () => {
 
   // Setup routes
   authRoutes(app);
-  app.use('/api/v1/', ApiRoutes);
+  apiRoutes(app);
 
   return new Promise((resolve) => {
     const server = app.listen(PORT, () => {

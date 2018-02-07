@@ -1,8 +1,7 @@
-import { Router } from 'express';
-import * as ApiController from '../controller/ApiController';
+const API_ENDPOINT = '/api';
 
-const router = new Router();
-
-router.get('/test', ApiController.test);
-
-export default router;
+export default (app) => {
+  app.get(API_ENDPOINT, (req, res) => {
+    res.send('Hi how are you');
+  });
+};
