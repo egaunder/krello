@@ -13,8 +13,8 @@ import './services/passport';
 
 
 // *** Routes *** //
-import apiRoutes from './routes/ApiRoutes';
-import authRoutes from './routes/AuthRoutes';
+import apiRoutes from './routes/apiRoutes';
+import authRoutes from './routes/authRoutes';
 
 const startServer = async () => {
   const ENVIRONMENT = process.env.NODE_ENV || 'development';
@@ -22,7 +22,7 @@ const startServer = async () => {
 
   async function initializeDb(keys) {
     mongoose.Promise = global.Promise;
-    await mongoose.connect(keys.mongoUriProd, { useMongoClient: true });
+    await mongoose.connect(keys.mongoUriProd);
   }
 
   initializeDb(configKeys, ENVIRONMENT);

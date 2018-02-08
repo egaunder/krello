@@ -1,4 +1,4 @@
-import User from '../User';
+import User from '../user';
 import { initializeTestDb, clearTestDb } from '../../utils/test_helper';
 
 describe('User', () => {

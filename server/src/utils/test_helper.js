@@ -5,7 +5,7 @@ mongoose.Promise = global.Promise;
 
 export function initializeTestDb() {
   try {
-    mongoose.connect(keys.mongoUriTest, { useMongoClient: true });
+    mongoose.connect(keys.mongoUriTest);
     return new Promise(res => res(true));
   } catch (err) {
     return new Promise(res => res(false));

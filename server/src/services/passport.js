@@ -2,7 +2,7 @@ import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import bcrypt from 'bcrypt';
 
-import User from '../models/User';
+import User from '../models/user';
 
 const localStrategy = async (req, email, password, done) => {
   const user = await User.findOne({

@@ -3,7 +3,7 @@
 /* eslint consistent-return: false */
 
 import bcrypt from 'bcrypt';
-import User from '../models/User';
+import User from '../models/user';
 import { isEmpty } from '../utils/helperFunctions';
 
 export default (app) => {
