@@ -22,14 +22,6 @@ const boardSchema = new Schema({
   },
 });
 
-// boardSchema.statics.findByUserId = function findByUserId(userId) {
-//   this.findOne({ userId })
-//     .then((board) => {
-//       console.log(board);
-//       return board;
-//     });
-// };
-
 export default mongoose.model('boards', boardSchema);
 
 
