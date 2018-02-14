@@ -6,6 +6,7 @@ import bodyParser from 'body-parser';
 import expressDevice from 'express-device';
 import mongoose from 'mongoose';
 import passport from 'passport';
+import logger from 'loglevel';
 import cookieSession from 'cookie-session';
 import path from 'path';
 import configKeys from './config/keys';
@@ -13,12 +14,11 @@ import './services/passport';
 
 
 // *** Routes *** //
-import apiRoutes from './routes/apiRoutes';
 import authRoutes from './routes/authRoutes';
+import boardRoutes from './routes/boardRoutes';
 
-const startServer = async () => {
+const startServer = async ({ port = 5000 } = {}) => {
   const ENVIRONMENT = process.env.NODE_ENV || 'development';
-  const PORT = process.env.PORT || 5000;
 
   async function initializeDb(keys) {
     mongoose.Promise = global.Promise;
@@ -45,11 +45,15 @@ const startServer = async () => {
 
   // Setup routes
   authRoutes(app);
-  apiRoutes(app);
+  app.use('/boards', boardRoutes);
 
   return new Promise((resolve) => {
-    const server = app.listen(PORT, () => {
-      console.log(`Server running of port ${PORT}`);
+    const server = app.listen(port, () => {
+      logger.info(`Listening on port ${server.address().port}`);
+      const originalClose = server.close.bind(server);
+      server.close = () => new Promise((resolveClose) => {
+        originalClose(resolveClose);
+      });
       resolve(server);
     });
   });

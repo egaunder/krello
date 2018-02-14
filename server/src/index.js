@@ -1,3 +1,11 @@
-import startServer from './startServer';
+import logger from 'loglevel';
+import startServer from './start'
 
-startServer();
+const notTest = process.env.NODE_ENV !== 'test';
+const isProduction = process.env.NODE_ENV === 'production';
+const logLevel = process.env.LOG_LEVEL || (notTest ? 'info' : 'warn');
+
+logger.setLevel(logLevel);
+
+startServer({ port: isProduction ? process.env.PORT : undefined });
+

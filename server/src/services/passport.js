@@ -1,36 +1,55 @@
-import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import bcrypt from 'bcrypt';
+import { omit } from 'lodash';
 
 import User from '../models/user';
 
-const localStrategy = async (req, email, password, done) => {
-  const user = await User.findOne({
+function userToJSON({
+  id,
+  username,
+  email,
+  ...otherUserProps
+}) {
+  return {
+    id,
+    username,
     email,
-  }).catch(err => done(err));
+    ...omit(otherUserProps, ['password_hash', 'created_at']),
+  };
+}
 
-  if (!user) return done(null, false);
-
-  const databasePassword = user.password_hash;
-
+function isPasswordValid(password, databasePassword) {
   // Always use hash passwords
   bcrypt.compare(password, databasePassword, (err, isValid) => {
-    if (err) return done(err);
+    if (err) return false;
 
-    if (!isValid) return done(null, false);
+    if (!isValid) return false;
 
-    return done(null, user);
+    return true;
   });
-};
+}
 
-passport.use(
-  'local',
-  new LocalStrategy(
-    {
-      usernameField: 'email',
-      passwordField: 'password',
-      passReqToCallback: true,
-    },
-    localStrategy,
-  ),
-);
+function getLocalStrategy() {
+  return new LocalStrategy(async (username, password, done) => {
+    const user = await User.findOne({
+      username,
+    }).catch(err => done(err));
+
+    if (!user) return done(null, false);
+
+    const databasePassword = user.password_hash;
+
+    if (!isPasswordValid(password, databasePassword)) {
+      return done(null, false, {
+        errors: { 'username or password': 'invalid' },
+      });
+    }
+
+    return done(null, userToJSON(user));
+  });
+}
+
+export default {
+  getLocalStrategy,
+  userToJSON,
+};
