@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'
 
-const { Schema } = mongoose;
+const { Schema } = mongoose
 
 const boardSchema = new Schema({
   name: {
@@ -20,9 +20,9 @@ const boardSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-});
+})
 
-export default mongoose.model('boards', boardSchema);
+export default mongoose.model('boards', boardSchema)
 
 
 /**
