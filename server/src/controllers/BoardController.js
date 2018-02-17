@@ -21,29 +21,64 @@ export const getBoards = async (req, res) => {
 }
 
 export const updateBoard = async (req, res) => {
-  const { boardId } = req.params
+  const { id, name, userId, category } = req.body
 
-  if (!boardId) {
+  if (!id) {
     return res.status(400).json({ message: 'Server cannot process request' })
   }
 
-  const board = await Board.findOne({ id: boardId })
+  const board = await Board.findOne({ id })
     .catch(err => {
-      logger.error(err);
-      res.status(500).json({ message: 'Server encountered an internal error' })
+      logger.error(err)
+      return res.status(400).json({ message: 'Server could not locate resource' })
     })
-  return res.json({ message: 'update' })
+
+  board.name = name || ''
+  board.userId = userId || ''
+  board.category = category || ''
+
+  await board.save()
+    .catch(err => {
+      logger.error(err)
+      return res.status(500).json({ message: 'Server encountered an internal error while trying to save resource' })
+    })
+
+  return res.status(200).json(boardToJson(board))
 }
 
 export const createBoard = async (req, res) => {
-  return res.json({ message: 'create' })
+  const { name, userId, category } = req.body
+
+  if (!userId) {
+    return res.status(400).json({ message: 'One of the request inputs is not valid' })
+  }
+
+  const board = await Board.create({ name, userId, category })
+    .catch(err => {
+      logger.error(err)
+      return res.status(500).json({ message: 'Server encountered an internal error while trying to save resource' })
+    })
+
+  return res.status(200).json(boardToJson(board))
 }
 
 export const deleteBoard = async (req, res) => {
-  return res.json({ message: 'delete' })
+  const { id } = req.params
+
+  if (!id) {
+    return res.status(400).json({ message: 'An invalid value was specified for one of the query parameters in the request URI' })
+  }
+
+  const board = await Board.findByIdAndRemove({ id })
+    .catch(err => {
+      logger.error(err)
+      return res.status(400).json({ message: 'Server could not locate resource' })
+    })
+
+  return res.status(200).json(boardToJson(board))
 }
 
-function boardToJson(board) {
+export function boardToJson(board = {}) {
   const { id, name, userId, category } = board
   return {
     id,

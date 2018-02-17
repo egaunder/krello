@@ -31,9 +31,9 @@ const boardRouter = Router()
 boardRouter.route('/:userId').get(BoardController.getBoards)
 
 boardRouter.route('/:boardId')
-  .put(BoardController.updateBoard)
   .delete(BoardController.deleteBoard)
 
 boardRouter.route('/').post(BoardController.createBoard)
+  .put(BoardController.updateBoard)
 
 export default boardRouter
