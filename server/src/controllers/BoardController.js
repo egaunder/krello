@@ -15,9 +15,25 @@ export const getBoards = async (req, res) => {
       res.status(500).json({ message: 'Server encountered an internal error' })
     })
 
-  if (boards) return res.status(200).json({ boards: boardToJson(boards) })
+  if (boards) return res.status(200).json({ boards: boards.map(board => boardToJson(board)) })
 
   return res.status(400).json({ message: 'Server cannot process request' })
+}
+
+export const getBoard = async (req, res) => {
+  const { id } = req.params
+
+  if (!id) {
+    return res.status(400).json({ message: 'An invalid value was specified for one of the query parameters in the request URI' })
+  }
+
+  const board = await Board.findById(id)
+    .catch(err => {
+      logger.error(err)
+      return res.status(400).json({ message: 'Server could not locate resource' })
+    })
+
+  return res.status(200).json(boardToJson(board))
 }
 
 export const updateBoard = async (req, res) => {

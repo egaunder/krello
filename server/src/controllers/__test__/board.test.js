@@ -1,4 +1,4 @@
-import { boardToJson } from '../BoardController'
+import { boardToJson } from '../boardController'
 
 describe('[ boardToJson ]', () => {
   test('should return an object', () => {

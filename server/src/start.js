@@ -9,6 +9,8 @@ import passport from 'passport'
 import logger from 'loglevel'
 import cookieSession from 'cookie-session'
 import path from 'path'
+import cors from 'cors'
+
 import configKeys from './config/keys'
 import './services/passport'
 
@@ -20,14 +22,19 @@ import boardRoutes from './routes/boardRoutes'
 const startServer = async ({ port = 5000 } = {}) => {
   const ENVIRONMENT = process.env.NODE_ENV || 'development'
 
-  async function initializeDb(keys) {
+  async function initializeDb(keys, env) {
     mongoose.Promise = global.Promise
-    await mongoose.connect(keys.mongoUriProd)
+    if (env === 'production') {
+      await mongoose.connect(keys.mongoUriProd)
+    } else {
+      await mongoose.connect(keys.mongoUriTest)
+    }
   }
 
   initializeDb(configKeys, ENVIRONMENT)
 
   const app = express()
+  app.use(cors())
   app.use(compression())
   app.use(cookieParser())
   app.use(expressDevice.capture())
@@ -45,13 +52,13 @@ const startServer = async ({ port = 5000 } = {}) => {
 
   // Setup routes
   authRoutes(app)
-  app.use('/boards', boardRoutes)
+  app.use('/api/boards', boardRoutes)
 
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     const server = app.listen(port, () => {
       logger.info(`Listening on port ${server.address().port}`)
       const originalClose = server.close.bind(server)
-      server.close = () => new Promise((resolveClose) => {
+      server.close = () => new Promise(resolveClose => {
         originalClose(resolveClose)
       })
       resolve(server)

@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import * as BoardController from '../controllers/BoardController'
+import * as BoardController from '../controllers/boardController'
 
 const boardRouter = Router()
 /**
@@ -28,12 +28,14 @@ const boardRouter = Router()
  * },
  */
 
-boardRouter.route('/:userId').get(BoardController.getBoards)
+boardRouter.route('/:userId/user').get(BoardController.getBoards)
 
-boardRouter.route('/:boardId')
+boardRouter.route('/:id')
+  .get(BoardController.getBoard)
   .delete(BoardController.deleteBoard)
 
-boardRouter.route('/').post(BoardController.createBoard)
+boardRouter.route('/')
+  .post(BoardController.createBoard)
   .put(BoardController.updateBoard)
 
 export default boardRouter
