@@ -2,6 +2,7 @@ import logger from 'loglevel'
 
 import Board from '../models/board'
 
+
 export const getBoards = async (req, res) => {
   const { userId } = req.params
 
@@ -32,31 +33,24 @@ export const getBoard = async (req, res) => {
       logger.error(err)
       return res.status(400).json({ message: 'Server could not locate resource' })
     })
+  if (board) {
+    return res.status(200).json(boardToJson(board))
+  }
 
-  return res.status(200).json(boardToJson(board))
+  return res.status(400).json({ message: 'Server could not localte resource' })
 }
 
 export const updateBoard = async (req, res) => {
-  const { id, name, userId, category } = req.body
+  const { id } = req.body
 
   if (!id) {
     return res.status(400).json({ message: 'Server cannot process request' })
   }
 
-  const board = await Board.findOne({ id })
+  const board = await Board.findByIdAndUpdate(id, req.body, { new: true })
     .catch(err => {
       logger.error(err)
       return res.status(400).json({ message: 'Server could not locate resource' })
-    })
-
-  board.name = name || ''
-  board.userId = userId || ''
-  board.category = category || ''
-
-  await board.save()
-    .catch(err => {
-      logger.error(err)
-      return res.status(500).json({ message: 'Server encountered an internal error while trying to save resource' })
     })
 
   return res.status(200).json(boardToJson(board))
@@ -84,14 +78,13 @@ export const deleteBoard = async (req, res) => {
   if (!id) {
     return res.status(400).json({ message: 'An invalid value was specified for one of the query parameters in the request URI' })
   }
-
-  const board = await Board.findByIdAndRemove({ id })
+  const board = await Board.findByIdAndRemove(id)
     .catch(err => {
       logger.error(err)
       return res.status(400).json({ message: 'Server could not locate resource' })
     })
 
-  return res.status(200).json(boardToJson(board))
+  return res.status(201).json(boardToJson(board))
 }
 
 export function boardToJson(board = {}) {

@@ -3,6 +3,8 @@ import faker from 'faker'
 
 import startServer from '../../start'
 import { clearTestDb } from '../../utils/test_helper'
+import Board from '../../models/board'
+import { deleteBoard } from '../../controllers/boardController';
 
 let server, baseURL
 
@@ -61,6 +63,49 @@ test('get boards', async done => {
   expect(boards[0].userId).toBe(userId)
   expect(boards[1].userId).toBe(userId)
   expect(boards[2].userId).toBe(userId)
+  done()
+})
+
+test('create board', async done => {
+  const board = {
+    name: faker.name.findName(),
+    userId: 'j12k',
+    category: 'Studies',
+  }
+
+  const savedBoard = await axios.post(baseURL, board).then(res => res.data)
+  const getBoard = await axios.get(`${baseURL}/${savedBoard.id}`).then(res => res.data)
+
+  expect(getBoard.name).toBe(board.name)
+  expect(getBoard.userId).toBe(board.userId)
+  expect(getBoard.category).toBe(board.category)
+  done()
+})
+
+test('update board', async done => {
+  const updateBoard = {
+    name: faker.name.findName(),
+    userId: 'sfjl32j4k',
+    category: 'Studies',
+  }
+  const board = await axios.post(baseURL, updateBoard).then(res => res.data)
+  const getBoard = await axios.put(baseURL, { id: board.id, name: 'John' }).then(res => res.data)
+
+  expect(getBoard.name).toBe('John')
+  done()
+})
+
+test('delete board', async done => {
+  const board = {
+    name: 'Elvan',
+    userId: 'jfkslfjksldjflsd',
+    category: 'Studies',
+  }
+
+  const postBoard = await axios.post(baseURL, board).then(res => res.data)
+  const deletedBoard = await axios.delete(`${baseURL}/${postBoard.id}`).then(res => res.data)
+  expect(deletedBoard.name).toBe(board.name)
+  expect(deletedBoard.userId).toBe(board.userId)
   done()
 })
 

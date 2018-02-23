@@ -12,6 +12,9 @@ const boardSchema = new Schema({
     required: true,
   },
   category: String,
+  items: [
+    { type: Schema.Types.ObjectId, ref: 'items' },
+  ],
   created_at: {
     type: Date,
     default: Date.now,
