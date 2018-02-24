@@ -13,7 +13,7 @@ const boardSchema = new Schema({
   },
   category: String,
   items: [
-    { type: Schema.Types.ObjectId, ref: 'items' },
+    { type: Schema.Types.ObjectId, ref: 'lits' },
   ],
   created_at: {
     type: Date,

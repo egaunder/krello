@@ -70,6 +70,8 @@ describe('Board', () => {
   })
 
   test('should remove a board', async done => {
+    await Board.collection.drop()
+
     const board = new Board({
       name: 'Update Board',
       userId: '133',
@@ -77,10 +79,11 @@ describe('Board', () => {
     })
 
     await board.save()
-    const count = await Board.collection.count()
-    await Board.findOneAndRemove({ userId: board.userId })
-    const reducedCount = await Board.collection.count()
-    expect(count).toBe(reducedCount + 1)
+
+    const removedBoard = await Board.findOneAndRemove({ userId: board.userId })
+
+    expect(removedBoard.name).toBe(board.name)
+    expect(removedBoard.userId).toBe(board.userId)
     done()
   })
 })

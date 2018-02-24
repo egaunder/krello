@@ -1,23 +1,23 @@
-import mongoose from 'mongoose';
-import keys from '../config/keys';
+import mongoose from 'mongoose'
+import keys from '../config/keys'
 
-mongoose.Promise = global.Promise;
+mongoose.Promise = global.Promise
 
 export function initializeTestDb() {
   try {
-    mongoose.connect(keys.mongoUriTest);
-    return new Promise(res => res(true));
+    mongoose.connect(keys.mongoUriTest)
+    return new Promise(res => res(true))
   } catch (err) {
-    return new Promise(res => res(false));
+    return new Promise(res => res(false))
   }
 }
 
 
 export function clearTestDb() {
   try {
-    mongoose.connection.db.dropDatabase();
-    return new Promise(res => res(true));
+    mongoose.connection.db.dropDatabase()
+    return new Promise(res => res(true))
   } catch (err) {
-    return new Promise(res => res(false));
+    return new Promise(res => res(false))
   }
 }

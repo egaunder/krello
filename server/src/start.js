@@ -27,7 +27,7 @@ const startServer = async ({ port = 5000 } = {}) => {
     if (env === 'production') {
       await mongoose.connect(keys.mongoUriProd)
     } else {
-      await mongoose.connect(keys.mongoUriTest)
+      await mongoose.connect(keys.mongoUriDev)
     }
   }
 
