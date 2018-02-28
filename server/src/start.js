@@ -19,6 +19,7 @@ import './services/passport'
 import authRoutes from './routes/authRoutes'
 import boardRoutes from './routes/boardRoutes'
 import listRoutes from './routes/listRoutes'
+import itemRoutes from './routes/itemRoutes'
 
 const startServer = async ({ port = 5000 } = {}) => {
   const ENVIRONMENT = process.env.NODE_ENV || 'development'
@@ -55,6 +56,7 @@ const startServer = async ({ port = 5000 } = {}) => {
   authRoutes(app)
   app.use('/api/boards', boardRoutes)
   app.use('/api/lists', listRoutes)
+  app.use('/api/items', itemRoutes)
 
   return new Promise(resolve => {
     const server = app.listen(port, () => {
