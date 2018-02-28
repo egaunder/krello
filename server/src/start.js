@@ -18,6 +18,7 @@ import './services/passport'
 // *** Routes *** //
 import authRoutes from './routes/authRoutes'
 import boardRoutes from './routes/boardRoutes'
+import listRoutes from './routes/listRoutes'
 
 const startServer = async ({ port = 5000 } = {}) => {
   const ENVIRONMENT = process.env.NODE_ENV || 'development'
@@ -53,6 +54,7 @@ const startServer = async ({ port = 5000 } = {}) => {
   // Setup routes
   authRoutes(app)
   app.use('/api/boards', boardRoutes)
+  app.use('/api/lists', listRoutes)
 
   return new Promise(resolve => {
     const server = app.listen(port, () => {

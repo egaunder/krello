@@ -1,20 +1,20 @@
 import axios from 'axios'
 import faker from 'faker'
+import getPort from 'get-port'
 
 import startServer from '../../start'
-import { clearTestDb } from '../../utils/test_helper'
 import Board from '../../models/board'
-import { deleteBoard } from '../../controllers/boardController';
 
-let server, baseURL
+let server
+let baseURL
 
 beforeAll(async () => {
-  server = await startServer({ port: 6000 })
+  const port = await getPort()
+  server = await startServer({ port })
   baseURL = `http://localhost:${server.address().port}/api/boards`
 })
 
 afterAll(async () => {
-  await clearTestDb()
   await server.close()
 })
 
@@ -30,6 +30,9 @@ test('get board', async done => {
   expect(getBoard.id).toBe(board.id)
   expect(getBoard.name).toBe(board.name)
   expect(getBoard.category).toBe(board.category)
+
+  Board.findByIdAndRemove(getBoard.id)
+
   done()
 })
 
@@ -59,10 +62,14 @@ test('get boards', async done => {
   await axios.post(baseURL, board3).then(res => res.data)
 
   const boards = await axios.get(`${baseURL}/${userId}/user`).then(res => res.data.boards)
-  expect(boards.length).toBe(3)
   expect(boards[0].userId).toBe(userId)
   expect(boards[1].userId).toBe(userId)
   expect(boards[2].userId).toBe(userId)
+
+  Board.findByIdAndRemove(boards[0].id)
+  Board.findByIdAndRemove(boards[1].id)
+  Board.findByIdAndRemove(boards[2].id)
+
   done()
 })
 
@@ -79,6 +86,9 @@ test('create board', async done => {
   expect(getBoard.name).toBe(board.name)
   expect(getBoard.userId).toBe(board.userId)
   expect(getBoard.category).toBe(board.category)
+
+  Board.findByIdAndRemove(getBoard.id)
+
   done()
 })
 
