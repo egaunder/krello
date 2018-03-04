@@ -1,40 +1,21 @@
-import { Strategy as LocalStrategy } from 'passport-local'
-import bcrypt from 'bcrypt'
+import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt'
+import passport from 'passport'
 
 import User from '../models/user'
+import authConfig from '../config/authConfig'
 
-function isPasswordValid(password, databasePassword) {
-  // Always use hash passwords
-  bcrypt.compare(password, databasePassword, (err, isValid) => {
-    if (err) return false
+const opts = {}
 
-    if (!isValid) return false
+opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken()
+opts.secretOrKey = authConfig.secret
 
-    return true
-  })
-}
+passport.use(new JwtStrategy(opts, async (jwtPayload, done) => {
+  const user = await User.findById({ id: jwtPayload.sub })
+    .catch(err => done(err, false))
 
-function getLocalStrategy() {
-  return new LocalStrategy(async (username, password, done) => {
-    const user = await User.findOne({ username }).catch(err => done(err))
+  if (user) {
+    return done(null, { id: user.id })
+  }
 
-    if (!user) return done(null, false)
-
-    const databasePassword = user.password_hash
-
-    if (!isPasswordValid(password, databasePassword)) {
-      return done(null, false, { errors: { 'username or password': 'invalid' } })
-    }
-
-    return done(null, userToJSON(user))
-  })
-}
-
-function userToJSON({ id, username, email }) {
-  return { id, username, email }
-}
-
-export default {
-  getLocalStrategy,
-  userToJSON,
-}
+  return done(null, false)
+}))

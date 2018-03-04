@@ -7,7 +7,6 @@ import expressDevice from 'express-device'
 import mongoose from 'mongoose'
 import passport from 'passport'
 import logger from 'loglevel'
-import cookieSession from 'cookie-session'
 import path from 'path'
 import cors from 'cors'
 
@@ -42,18 +41,13 @@ const startServer = async ({ port = 5000 } = {}) => {
   app.use(expressDevice.capture())
   app.use(bodyParser.json({ limit: '20mb', extended: true }))
   app.use(bodyParser.urlencoded({ limit: '20mb', extended: true }))
-  app.use(cookieSession({
-    maxAge: 30 * 24 * 60 * 60 * 1000,
-    keys: [configKeys.cookieKey],
-  }))
 
   // *** setup authentication *** /
   app.use(passport.initialize())
-  app.use(passport.session())
   app.use(express.static(path.resolve(__dirname, '../../', 'client', 'build')))
 
   // Setup routes
-  authRoutes(app)
+  app.use('/auth', authRoutes)
   app.use('/api/boards', boardRoutes)
   app.use('/api/lists', listRoutes)
   app.use('/api/items', itemRoutes)

@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn add get-port
+  /usr/local/bin/node /usr/local/bin/yarn add passport-jwt
 
 PATH: 
   /Users/elvangaunder1/.rvm/gems/ruby-2.3.0/bin:/Users/elvangaunder1/.rvm/gems/ruby-2.3.0@global/bin:/Users/elvangaunder1/.rvm/rubies/ruby-2.3.0/bin:/Users/elvangaunder1/.composer/vendor/bin:/Users/elvangaunder1/usr/local/node/bin:/usr/local/mysql/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/p4merge.app/Contents/MacOS:/usr/local/npm/bin:/Users/elvangaunder1/.rvm/bin
@@ -33,16 +33,14 @@ npm manifest:
       "body-parser": "^1.18.2",
       "compression": "^1.7.1",
       "cookie-parser": "^1.4.3",
-      "cookie-session": "^2.0.0-beta.3",
       "cors": "^2.8.4",
       "express": "^4.16.2",
       "express-device": "^0.4.2",
+      "get-port": "^3.2.0",
       "lodash": "^4.17.5",
       "loglevel": "^1.6.1",
       "mongoose": "5.0.3",
-      "passport": "^0.4.0",
-      "passport-local": "^1.0.0",
-      "passport-local-mongoose": "^4.4.0"
+      "passport": "^0.4.0"
     },
     "devDependencies": {
       "babel-cli": "^6.26.0",
@@ -2428,6 +2426,10 @@ Lockfile:
   get-caller-file@^1.0.1:
     version "1.0.2"
     resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-1.0.2.tgz#f702e63127e7e231c160a80c1554acb70d5047e5"
+  
+  get-port@^3.2.0:
+    version "3.2.0"
+    resolved "https://registry.yarnpkg.com/get-port/-/get-port-3.2.0.tgz#dd7ce7de187c06c8bf353796ac71e099f0980ebc"
   
   get-stream@^3.0.0:
     version "3.0.0"
@@ -5536,4 +5538,4 @@ Lockfile:
       window-size "0.1.0"
 
 Trace: 
-  Error: EACCES: permission denied, unlink '/Users/elvangaunder1/Projects/krello/server/node_modules/.bin/acorn'
+  Error: EACCES: permission denied, mkdir '/Users/elvangaunder1/Projects/krello/server/node_modules/request/node_modules/hoek'
