@@ -7,14 +7,16 @@ import User from '../models/user'
 export const signup = async (req, res) => {
   const { username, password, email } = req.body
   if (!username) {
-    return res.status(422).json({ errors: { username: 'can\'t be blank' } })
+    return res.status(422).json({ username: 'can\'t be blank' })
   }
-
   if (!password) {
-    return res.status(422).json({ errors: { password: 'can\'t be blank' } })
+    return res.status(422).json({ password: 'can\'t be blank' })
   }
 
-  const hashedPassword = await getSaltedHasshedPassword(password)
+  if (!email) {
+    return res.status(422).json({ email: 'can\'t be blank' })
+  }
+  const hashedPassword = await getSaltedHashedPassword(password)
 
   const existingUser = await User.findOne({ username })
     .catch(err => {
@@ -27,7 +29,7 @@ export const signup = async (req, res) => {
   if (existingUser) {
     return res.status(422).json({ error: { username: 'taken' } })
   }
-  console.log(hashedPassword)
+
   const newUser = await User.create({
     username,
     email,
@@ -45,11 +47,11 @@ export const signup = async (req, res) => {
 export const login = async (req, res) => {
   const { username, password } = req.body
   if (!username) {
-    return res.status(422).json({ errors: { username: 'can\'t be blank' } })
+    return res.status(422).json({ username: 'can\'t be blank' })
   }
 
   if (!password) {
-    return res.status(422).json({ errors: { password: 'can\'t be blank' } })
+    return res.status(422).json({ password: 'can\'t be blank' })
   }
 
   const user = await User.findOne({ username })
@@ -73,6 +75,9 @@ export const login = async (req, res) => {
 }
 
 export const getUserToken = user => {
+  if (!user) {
+    return ''
+  }
   const { expiresIn, secret } = authConfig
 
   const token = jwt.sign({ id: user.id }, secret, { expiresIn })
@@ -84,23 +89,35 @@ export const authUserToJson = (token, user) => Object.assign({}, { token }, user
 
 
 export const userToJson = user => {
+  if (!user) {
+    return {}
+  }
   const id = user.id || ''
   const username = user.username || ''
   const email = user.email || ''
   return { id, username, email }
 }
 
-export const isPasswordValid = (password, hash) => new Promise((resolve, reject) => {
-  bcrypt.compare(password, hash, (err, res) => {
-    if (err) {
-      reject(err)
-    }
-    resolve(res)
+export const isPasswordValid = (password, hash) => {
+  if (!password && !hash) {
+    return false
+  }
+  return new Promise((resolve, reject) => {
+    bcrypt.compare(password, hash, (err, res) => {
+      if (err) {
+        reject(err)
+      }
+      resolve(res)
+    })
   })
-})
+}
 
 
-export const getSaltedHasshedPassword = password => {
+export const getSaltedHashedPassword = password => {
+  if (!password) {
+    return ''
+  }
+
   const { saltRounds } = authConfig
   return new Promise((resolve, reject) => {
     bcrypt.hash(password, saltRounds, (err, hash) => {
