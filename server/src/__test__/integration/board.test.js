@@ -118,4 +118,3 @@ test('delete board', async done => {
   expect(deletedBoard.userId).toBe(board.userId)
   done()
 })
-
