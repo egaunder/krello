@@ -8,4 +8,3 @@ const logLevel = process.env.LOG_LEVEL || (notTest ? 'info' : 'warn')
 logger.setLevel(logLevel)
 
 startServer({ port: isProduction ? process.env.PORT : undefined })
-
