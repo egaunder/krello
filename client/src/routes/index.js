@@ -6,9 +6,8 @@ import Header from '../containers/Header/Header'
 const KrelloRouter = () => (
   <BrowserRouter>
     <div>
-      <Switch>
-        <Route path="/" exact component={Header} />
-      </Switch>
+      <Header />
+      <Switch />
     </div>
   </BrowserRouter>
 )
