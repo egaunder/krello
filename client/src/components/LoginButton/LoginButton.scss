@@ -2,5 +2,10 @@
 
 #login-button {
   background-color: $trelloDarkBlue;
+  background-color: #298fca;
   color: white;
+
+  &:hover {
+    background-color: #115798;
+  }
 }
