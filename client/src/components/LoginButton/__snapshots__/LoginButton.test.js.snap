@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[LoginButton] should render correctly 1`] = `
+<button
+  id="login-button"
+>
+  Login
+</button>
+`;

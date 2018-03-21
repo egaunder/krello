@@ -1,0 +1,8 @@
+.jumbotron {
+  display: flex;
+  background-color: #E85A4C;
+  color: white;
+  font-size: 2.5em;
+  align-items: center;
+  justify-content: center;
+  height: 70vh; }

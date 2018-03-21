@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Home should render correctly 1`] = `
+<div
+  className="home"
+>
+  <section
+    className="jumbotron"
+  >
+    <h1>
+      Krello
+    </h1>
+  </section>
+</div>
+`;

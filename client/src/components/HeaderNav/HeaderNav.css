@@ -5,7 +5,8 @@
   background-color: #1978bb;
   top: 0;
   right: 0;
-  height: 1.8em; }
+  height: 1.8em;
+  outline: none; }
   @media (min-width: 600px) {
     .header-nav-wrapper {
       height: 4em; } }

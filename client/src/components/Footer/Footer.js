@@ -1,9 +1,10 @@
 import React from 'react'
+import './Footer.css'
 
 const Footer = () => (
-  <div>
-    he
-  </div>
+  <footer id="footer-wrapper">
+    Krello
+  </footer>
 )
 
 export default Footer
