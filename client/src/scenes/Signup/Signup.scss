@@ -1,0 +1,35 @@
+.signup {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 30% auto 30%;
+  grid-template-rows: 20% auto 30%; 
+
+  .signup_sect {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-content: flex-start;
+    text-align: center;
+  }
+
+  .signup_sect > * {
+    flex: 1 100%;
+  }
+
+  .signup_sect_title {
+    height: 10%;
+  }
+  .form_content {
+    text-align: left;
+    input[type=text] {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      box-sizing: border-box;
+    }
+  }
+}
