@@ -57,6 +57,7 @@
       {
         "devDependencies": true
       }
-    ]
+    ],
+    "class-methods-use-this": "off"
   }
 }

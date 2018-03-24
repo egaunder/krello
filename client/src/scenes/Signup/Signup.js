@@ -1,25 +1,52 @@
-import React from 'react'
+import React, { Component } from 'react'
+import { Field, reduxForm, SubmissionError } from 'redux-form'
+import ReduxInputField from '../../components/ReduxInputField/ReduxInputField'
+
 import './Signup.css'
 
-const Signup = () => (
-  <div className="signup">
-    <section className="signup_sect">
-      <h1 className="signup_sect_title">Krello Signup Form</h1>
-      <form>
-        <div className="form_content">
-          <label htmlFor="email">Email</label>
-          <input type="text" id="email" name="email" />
-          <label htmlFor="username">Username</label>
-          <input type="text" id="username" name="username" />
-          <label htmlFor="password">Password</label>
-          <input type="text" id="password" name="password" />
-          <label htmlFor="password confirmation">Password Confirmation</label>
-          <input type="text" id="password-confirmation" name="password-confirmation" />
-          <input type="submit" id="submit" value="Create new account" />
-        </div>
-      </form>
-    </section>
-  </div>
-)
+const validate = () => { }
 
-export default Signup
+const Signup = props => {
+  const { handleSubmit } = props
+
+  return (
+    <div className="signup">
+      <section className="signup__sect">
+        <h1 className="signup__title">Krello Signup Form</h1>
+        <form className="form">
+          <Field
+            label="Email"
+            name="email"
+            component={ReduxInputField}
+            type="text"
+            placeholder="Enter your email address"
+          />
+          <Field
+            label="Username"
+            name="username"
+            component={ReduxInputField}
+            type="text"
+            placeholder="Enter your username"
+          />
+          <Field
+            label="Password"
+            name="password"
+            component={ReduxInputField}
+            type="text"
+            placeholder="Enter your password"
+          />
+          <Field
+            label="Password confirmation"
+            name="passwordConfirmation"
+            component={ReduxInputField}
+            type="text"
+            placeholder="Enter your password confirmation"
+          />
+          <input type="submit" id="submit" value="Create new account" />
+        </form>
+      </section>
+    </div>
+  )
+}
+
+export default reduxForm({ validate, form: 'signup', enableReinitialize: true })(Signup)

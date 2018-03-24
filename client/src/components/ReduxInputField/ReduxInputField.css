@@ -1,0 +1,10 @@
+.form__group {
+  text-align: left; }
+  .form__group input[type=text] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border-radius: 4px; }
+  .form__group input[type=text]::placeholder {
+    font-size: 1.5em; }
