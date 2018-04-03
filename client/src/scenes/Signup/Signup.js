@@ -4,20 +4,17 @@ import ReduxInputField from '../../components/ReduxInputField/ReduxInputField'
 import Button from '../../components/Button/Button'
 import './Signup.css'
 
-const validate = () => { }
+const validate = () => { console.log('hey') }
+const submit = () => { console.log('submit') }
 
-const handleSubmit = e => {
-  e.preventDefault()
-}
+const Signup = props => {
+  const { handleSubmit } = props
 
-const Signup = props =>
-  // const { handleSubmit } = props
-
-  (
+  return (
     <div className="signup">
       <section className="signup__sect">
         <h1 className="signup__title">Krello Signup Form</h1>
-        <form className="form">
+        <form className="form" onSubmit={handleSubmit(submit)}>
           <Field
             label="Email"
             name="email"
@@ -46,11 +43,12 @@ const Signup = props =>
             type="text"
             placeholder="Enter your password confirmation"
           />
-          <Button text="Click to register" onClick={handleSubmit} style={{ backgroundColor: '#62b856' }} />
+          <Button type="submit" text="Click to register" onClick={() => { }} style={{ backgroundColor: '#62b856' }} />
         </form>
       </section>
     </div>
   )
+}
 
 // enableReinitialize: true passed to reduxForm allows form to reinitialzie with
 // new pristine values every time initialValues prop changes

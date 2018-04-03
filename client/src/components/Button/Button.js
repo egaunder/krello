@@ -7,13 +7,14 @@ const Button = props => {
     props.onClick(e)
   }
 
-  return <button style={props.style} onClick={handleClick}>{props.text}</button>
+  return <button type={props.type} style={props.style} onClick={handleClick}>{props.text}</button>
 }
 
 Button.propTypes = {
   text: PropTypes.string.isRequired,
   style: PropTypes.shape({}).isRequired,
   onClick: PropTypes.func.isRequired,
+  type: PropTypes.string,
 }
 
 export default Button
