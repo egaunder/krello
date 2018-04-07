@@ -1,70 +1,65 @@
-import { emailValidate, inputFieldNotEmpty, validateMinLength, validateMaxLength } from './form.validations'
+import { isValidEmail, inputFieldNotEmpty, isValidMinLength, isValidMaxLength } from './form.validations'
 
-describe('emailValidate', () => {
-  test('should return error object with a property of email if no email is passed', () => {
-    const result = emailValidate()
-    expect(Object.keys(result)).toContain('email')
+describe('isValidEmail', () => {
+  test('should return false if no email is passed', () => {
+    const result = isValidEmail()
+    expect(result).toBe(false)
   })
 
-  test('should return error object with a property of email', () => {
+  test('should return false if invalid email passed', () => {
     const email = 'hey#.com'
-    const result = emailValidate(email, {})
-    expect(Object.keys(result)).toContain('email')
+    const result = isValidEmail(email)
+    expect(result).toBe(false)
   })
 
-  test('should return empty error object if email passes validation', () => {
+  test('should return true if valid email passed in', () => {
     const email = 'test@test.com'
-    const result = emailValidate(email, {})
-    expect(Object.keys(result)).not.toContain('email')
+    const result = isValidEmail(email)
+    expect(result).toBe(true)
   })
 })
 
 describe('inputFieldNotEmpty', () => {
-  test('should contain error object with a property of fieldName', () => {
-    const fieldName = 'username'
-    const result = inputFieldNotEmpty(null, fieldName, {})
-    expect(Object.keys(result)).toContain(fieldName)
+  test('should return false if null passed in', () => {
+    const result = inputFieldNotEmpty(null)
+    expect(result).toBe(false)
   })
 
-  test('should contain error object when property of filedName when input has no length', () => {
-    const fieldName = 'username'
-    const result = inputFieldNotEmpty('', fieldName, {})
-    expect(Object.keys(result)).toContain(fieldName)
+  test('should return false if empty string passed in', () => {
+    const result = inputFieldNotEmpty('')
+    expect(result).toBe(false)
   })
 
-  test('should not contain proeprty of username if valid input value passed in', () => {
-    const fieldName = 'username'
+  test('should return true if valid input passed in', () => {
     const inputValue = 'userTestName'
-    const result = inputFieldNotEmpty(inputValue, fieldName, {})
-    expect(Object.keys(result)).not.toContain(fieldName)
+    const result = inputFieldNotEmpty(inputValue)
+    expect(result).toBe(true)
   })
 })
 
-describe('validateMinLength', () => {
-  const fieldName = 'username'
-  test('should return an object with property of fieldname if length < min', () => {
-    const result = validateMinLength('', 3, fieldName, {})
-    expect(Object.keys(result)).toContain(fieldName)
+describe('isValidMinLength', () => {
+  test('should return false if length < min', () => {
+    const result = isValidMinLength('', 3)
+    expect(result).toBe(false)
   })
 
-  test('should return no object with property of fielName if length > min', () => {
+  test('should return true if length > min', () => {
     const input = 'hello'
-    const result = validateMinLength(input, 3, fieldName, {})
-    expect(Object.keys(result)).not.toContain(fieldName)
+    const result = isValidMinLength(input, 3)
+    expect(result).toBe(true)
   })
 })
 
-describe('validateMaxLength', () => {
-  const fieldName = 'username'
-  test('should return an object with property of fieldname if length > min', () => {
+describe('isValidMaxLength', () => {
+  test('should return false if length > max', () => {
     const input = 'Hi how are you doing'
-    const result = validateMaxLength(input, 3, fieldName, {})
-    expect(Object.keys(result)).toContain(fieldName)
+    const result = isValidMaxLength(input, 3)
+    expect(result).toBe(false)
   })
 
-  test('should return an error with no property of fieldname if length < max', () => {
+  test('should return true if length < max', () => {
     const input = 'hello'
-    const result = validateMaxLength(input, 10, fieldName, {})
-    expect(Object.keys(result)).not.toContain(fieldName)
+    const result = isValidMaxLength(input, 10)
+    expect(result).toBe(true)
   })
 })

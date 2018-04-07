@@ -2,9 +2,62 @@ import React from 'react'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
 import ReduxInputField from '../../components/ReduxInputField/ReduxInputField'
 import Button from '../../components/Button/Button'
+import {
+  isValidEmail,
+  inputFieldNotEmpty,
+  isValidMinLength,
+  isValidMaxLength,
+} from '../../utils/forms/form.validations'
+
 import './Signup.css'
 
-const validate = () => { console.log('hey') }
+const validate = values => {
+  const errors = {}
+  const { username, email, password, passwordConfirmation } = values
+
+  if (inputFieldNotEmpty(username)) {
+    if (!isValidMinLength(username, 4)) {
+      errors.username = 'Length cannot be less than 4'
+    }
+
+    if (!isValidMaxLength(username, 10)) {
+      errors.username = 'Length cannot be more than 10'
+    }
+  } else {
+    errors.username = 'Cannot be empty'
+  }
+
+  if (inputFieldNotEmpty(email)) {
+    if (!isValidMinLength(email, 4)) {
+      errors.email = 'Length cannot be less than 4'
+    }
+
+    if (!isValidEmail(email, errors)) {
+      errors.email = 'Invalid format'
+    }
+  } else {
+    errors.email = 'Cannot be empty'
+  }
+
+  if (inputFieldNotEmpty(password)) {
+    if (!isValidMinLength(password, 3)) {
+      errors.password = 'Length cannot be less than 3'
+    }
+  } else {
+    errors.password = 'Cannot be empty'
+  }
+
+  if (inputFieldNotEmpty(passwordConfirmation)) {
+    if (!isValidMinLength(passwordConfirmation, 3)) {
+      errors.passwordConfirmation = 'Length cannot be less than 3'
+    }
+  } else {
+    errors.passwordConfirmation = 'Cannot be empty'
+  }
+
+  return errors
+}
+
 const submit = () => { console.log('submit') }
 
 const Signup = props => {
