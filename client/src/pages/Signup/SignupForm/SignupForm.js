@@ -63,11 +63,7 @@ const validate = values => {
 }
 
 class SignupForm extends Component {
-  constructor(props) {
-    super(props)
-    this.submit = this.submit.bind(this)
-  }
-  submit(values) {
+  submit = values => {
     const { signupRequest, signupSuccess, signupFailure } = this.props.actions
     signupRequest()
     return new Promise((resolve, reject) => {
