@@ -4,20 +4,16 @@ import { Field, reduxForm, SubmissionError } from 'redux-form'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import ReduxInputField from '../../components/ReduxInputField/ReduxInputField'
-import Button from '../../components/Button/Button'
+import ReduxInputField from '../../../components/ReduxInputField/ReduxInputField'
+import Button from '../../../components/Button/Button'
 import {
   isValidEmail,
   inputFieldNotEmpty,
   isValidMinLength,
   isValidMaxLength,
-} from '../../utils/forms/form.validations'
-import {
-  signupRequest,
-  signupSuccess,
-  signupFailure,
-} from '../../store/auth/actions'
-import './Signup.css'
+} from '../../../utils/forms/form.validations'
+import { signupRequest, signupSuccess, signupFailure } from '../../../store/auth/actions'
+import './SignupForm.css'
 
 const validate = values => {
   const errors = {}
@@ -66,7 +62,7 @@ const validate = values => {
   return errors
 }
 
-class Signup extends Component {
+class SignupForm extends Component {
   constructor(props) {
     super(props)
     this.submit = this.submit.bind(this)
@@ -74,20 +70,21 @@ class Signup extends Component {
   submit(values) {
     const { signupRequest, signupSuccess, signupFailure } = this.props.actions
     signupRequest()
-
-    axios.post('http://localhost:5000/auth/signup', values)
-      .then(response => {
-        const { data } = response
-        if (data) {
-          console.log(data)
+    return new Promise((resolve, reject) => {
+      axios
+        .post('http://localhost:5000/auth/signup', values)
+        .then(response => {
+          const { data } = response
           signupSuccess(data)
-        }
-      })
-      .catch(err => {
-        signupFailure(err)
-        return new SubmissionError(err)
-      })
+          return resolve(data)
+        })
+        .catch(err => {
+          signupFailure(err)
+          return reject(new SubmissionError(err))
+        })
+    })
   }
+
   render() {
     const { handleSubmit } = this.props
 
@@ -124,7 +121,12 @@ class Signup extends Component {
               type="text"
               placeholder="Enter your password confirmation"
             />
-            <Button type="submit" text="Click to register" onClick={() => { }} style={{ backgroundColor: '#62b856' }} />
+            <Button
+              type="submit"
+              text="Click to register"
+              onClick={() => {}}
+              style={{ backgroundColor: '#62b856' }}
+            />
           </form>
         </section>
       </div>
@@ -145,9 +147,9 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-Signup.contextTypes = { router: PropTypes.object.isRequired }
+SignupForm.contextTypes = { router: PropTypes.object.isRequired }
 
-Signup.propTypes = {
+SignupForm.propTypes = {
   actions: PropTypes.shape({
     signupRequest: PropTypes.func.isRequired,
     signupSuccess: PropTypes.func.isRequired,
@@ -158,5 +160,4 @@ Signup.propTypes = {
 
 // enableReinitialize: true passed to reduxForm allows form to reinitialzie with
 // new pristine values every time initialValues prop changes
-export default connect(null, mapDispatchToProps)(reduxForm({ validate, form: 'signup', enableReinitialize: true })(Signup))
-
+export default connect(null, mapDispatchToProps)(reduxForm({ validate, form: 'signup', enableReinitialize: true })(SignupForm))

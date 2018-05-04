@@ -1,0 +1,5 @@
+{
+  "presets": ["env", "stage-2"],
+  "env": { "browser": true },
+  "plugins": ["transform-class-properties"]
+}

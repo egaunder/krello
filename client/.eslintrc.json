@@ -1,10 +1,11 @@
 {
   "extends": "airbnb",
   "root": true,
+  "parser": "babel-eslint",
   "env": {
     "jest": true,
     "browser": true,
-    "node": true
+    "node": false
   },
   "parserOptions": {
     "ecmaVersion": 8,
@@ -20,10 +21,7 @@
         "multiline": true
       }
     ],
-    "semi": [
-      "error",
-      "never"
-    ],
+    "semi": ["error", "never"],
     "no-use-before-define": [
       "error",
       {
@@ -39,17 +37,11 @@
         "args": "after-used"
       }
     ],
-    "arrow-parens": [
-      "error",
-      "as-needed"
-    ],
+    "arrow-parens": ["error", "as-needed"],
     "react/jsx-filename-extension": [
       1,
       {
-        "extensions": [
-          ".js",
-          ".jsx"
-        ]
+        "extensions": [".js", ".jsx"]
       }
     ],
     "import/no-extraneous-dependencies": [

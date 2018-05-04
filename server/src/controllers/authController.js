@@ -7,24 +7,24 @@ import User from '../models/user'
 export const signup = async (req, res) => {
   const { username, password, email } = req.body
   if (!username) {
-    return res.status(422).json({ username: 'can\'t be blank' })
+    return res.status(422).json({ username: "can't be blank" })
   }
   if (!password) {
-    return res.status(422).json({ password: 'can\'t be blank' })
+    return res.status(422).json({ password: "can't be blank" })
   }
 
   if (!email) {
-    return res.status(422).json({ email: 'can\'t be blank' })
+    return res.status(422).json({ email: "can't be blank" })
   }
   const hashedPassword = await getSaltedHashedPassword(password)
 
-  const existingUser = await User.findOne({ username })
-    .catch(err => {
-      /* eslint-disable no-console */
-      console.error(err)
-      return res.status(500)
-        .json({ error: 'Server encountered an internal error retieving the user' })
-    })
+  const existingUser = await User.findOne({ username }).catch(err => {
+    /* eslint-disable no-console */
+    console.error(err)
+    return res
+      .status(500)
+      .json({ error: 'Server encountered an internal error retieving the user' })
+  })
 
   if (existingUser) {
     return res.status(422).json({ error: { username: 'taken' } })
@@ -37,7 +37,9 @@ export const signup = async (req, res) => {
   }).catch(error => {
     /* eslint-disable no-console */
     console.error(error)
-    return res.status(500).json({ error: 'Server encountered an internal error trying to create resource' })
+    return res
+      .status(500)
+      .json({ error: 'Server encountered an internal error trying to create resource' })
   })
 
   const token = getUserToken(newUser)
@@ -47,20 +49,20 @@ export const signup = async (req, res) => {
 export const login = async (req, res) => {
   const { username, password } = req.body
   if (!username) {
-    return res.status(422).json({ username: 'can\'t be blank' })
+    return res.status(422).json({ username: "can't be blank" })
   }
 
   if (!password) {
-    return res.status(422).json({ password: 'can\'t be blank' })
+    return res.status(422).json({ password: "can't be blank" })
   }
 
-  const user = await User.findOne({ username })
-    .catch(error => {
-      /* eslint-disable no-console */
-      console.error(error)
-      return res.status(500)
-        .json({ error: 'Server encountered an internal error while processing your request' })
-    })
+  const user = await User.findOne({ username }).catch(error => {
+    /* eslint-disable no-console */
+    console.error(error)
+    return res
+      .status(500)
+      .json({ error: 'Server encountered an internal error while processing your request' })
+  })
 
   if (!user) {
     return res.status(422).json({ error: { username: 'Username does not exist' } })
@@ -87,7 +89,6 @@ export const getUserToken = user => {
 
 export const authUserToJson = (token, user) => Object.assign({}, { token }, userToJson(user))
 
-
 export const userToJson = user => {
   if (!user) {
     return {}
@@ -111,7 +112,6 @@ export const isPasswordValid = (password, hash) => {
     })
   })
 }
-
 
 export const getSaltedHashedPassword = password => {
   if (!password) {

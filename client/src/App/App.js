@@ -1,12 +1,12 @@
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import { Route, Switch } from 'react-router'
-import Home from '../../scenes/Home/Home'
-import Login from '../../scenes/Login/Login'
-import Signup from '../../scenes/Signup/Signup'
+import Home from '../pages/Home/Home'
+import Login from '../pages/Login/Login'
+import Signup from '../pages/Signup/Signup'
 
 const App = () => (
-  <div id="app>" >
+  <div id="app>">
     <BrowserRouter>
       <div>
         <Switch>
@@ -16,7 +16,7 @@ const App = () => (
         </Switch>
       </div>
     </BrowserRouter>
-  </div >
+  </div>
 )
 
 export default App
