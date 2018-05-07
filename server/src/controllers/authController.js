@@ -27,7 +27,7 @@ export const signup = async (req, res) => {
   })
 
   if (existingUser) {
-    return res.status(422).json({ error: { username: 'taken' } })
+    return res.status(422).json({ error: { username: 'Username is taken' } })
   }
 
   const newUser = await User.create({

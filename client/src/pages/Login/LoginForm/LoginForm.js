@@ -1,14 +1,16 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import { Field, reduxForm, SubmissionError } from 'redux-form'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
+import ReduxInputField from '../../../components/ReduxInputField/ReduxInputField'
 import {
   isValidEmail,
   inputFieldNotEmpty,
   isValidMinLength,
-  isValidMaxLength,
 } from '../../../utils/forms/form.validations'
+import { rejects } from 'assert'
 
 const validate = values => {
   const { email, password } = values
@@ -36,15 +38,33 @@ const validate = values => {
 }
 
 class LoginForm extends Component {
-  static propTypes = {}
-
   submit = values => {
-    // Hello
   }
 
   render() {
-    return <div />
+    const handleSubmit = this.props
+    return (
+      <div className="login_sect">
+        <h1 className="login_title">Krello Login Form</h1>
+        <form className="form" onSubmit={handleSubmit(this.submit)}>
+          <Field
+            label="Email"
+            name="email"
+            component={ReduxInputField}
+            type="text"
+            placeholder="Enter your email address"
+          />
+          <Field
+            label="Password"
+            name="password"
+            component={ReduxInputField}
+            type="text"
+            placeholder="Enter your password"
+          />
+        </form>
+      </div>
+    )
   }
 }
 
-export default LoginForm
+export default connect(null, null)(reduxForm({ validate, form: 'login' })(LoginForm))
