@@ -13,6 +13,7 @@ import {
   isValidMaxLength,
 } from '../../../utils/forms/form.validations'
 import { signupRequest, signupSuccess, signupFailure } from '../../../store/data/auth/actions'
+import { addFlashMessage } from '../../../store/data/flashMessage/actions'
 import './SignupForm.css'
 
 const validate = values => {
@@ -66,7 +67,7 @@ class SignupForm extends Component {
   static contextTypes = { router: PropTypes.object.isRequired }
 
   submit = values => {
-    const { signupRequest, signupSuccess, signupFailure } = this.props.actions
+    const { signupRequest, signupSuccess, signupFailure, addFlashMessage } = this.props.actions
     signupRequest()
     return new Promise((resolve, reject) => {
       axios
@@ -75,10 +76,12 @@ class SignupForm extends Component {
           const { data } = response
           signupSuccess(data)
           resolve(data)
+          addFlashMessage({ message: 'Successfully signed up', category: 'success' })
           return this.context.router.history.push('/')
         })
         .catch(error => {
           signupFailure(error.response.data.error)
+          addFlashMessage({ message: 'Signup failed', category: 'error' })
           return reject(new SubmissionError(error.response.data.error))
         })
     })
@@ -138,6 +141,7 @@ function mapDispatchToProps(dispatch) {
         signupRequest,
         signupSuccess,
         signupFailure,
+        addFlashMessage,
       },
       dispatch,
     ),
@@ -151,6 +155,7 @@ SignupForm.propTypes = {
     signupRequest: PropTypes.func.isRequired,
     signupSuccess: PropTypes.func.isRequired,
     signupFailure: PropTypes.func.isRequired,
+    addFlashMessage: PropTypes.func.isRequired,
   }).isRequired,
   handleSubmit: PropTypes.func.isRequired,
 }

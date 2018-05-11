@@ -53,6 +53,8 @@ class LoginForm extends Component {
     }).isRequired,
   }
 
+  static contextTypes = { router: PropTypes.object.isRequired }
+
   submit = values => {
     const { loginRequest, loginSuccess, loginFailure, addFlashMessage } = this.props.actions
 
@@ -64,6 +66,7 @@ class LoginForm extends Component {
             const { data } = response
             loginSuccess(data)
             addFlashMessage({ message: 'Successfully logged in', category: 'success' })
+            this.context.router.history.push('/')
           }
         })
         .catch(err => {

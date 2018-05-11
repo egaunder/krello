@@ -11,11 +11,12 @@ import './FlashMessage.css'
 class FlashMessage extends Component {
   static propTypes = {
     message: PropTypes.string,
+    category: PropTypes.string,
     actions: PropTypes.shape({ removeFlashMessage: PropTypes.func.isRequired }).isRequired,
     display: PropTypes.bool,
   }
 
-  static defaultProps = { message: '', display: false }
+  static defaultProps = { message: '', category: 'success', display: false }
 
   state = { display: false }
 
@@ -26,20 +27,24 @@ class FlashMessage extends Component {
   }
 
   render() {
-    const { message } = this.props
+    const { message, category } = this.props
     const { display } = this.state
     const { removeFlashMessage } = this.props.actions
     const shouldDisplay = display ? 'grid' : 'none'
     return (
       <div className="flash-message" style={{ display: shouldDisplay }}>
-        <FlashMessagePanel close={removeFlashMessage} message={message} />
+        <FlashMessagePanel close={removeFlashMessage} message={message} category={category} />
       </div>
     )
   }
 }
 
 function mapStateToProps(state) {
-  return { message: state.flashMessage.message, display: state.flashMessage.display }
+  return {
+    message: state.flashMessage.message,
+    display: state.flashMessage.display,
+    category: state.flashMessage.category,
+  }
 }
 
 function mapDispatchToProps(dispatch) {
