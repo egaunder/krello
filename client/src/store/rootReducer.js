@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux'
 import { reducer as formReducer } from 'redux-form'
-import authReducer from './auth/reducer'
+import auth from './data/auth/reducer'
+import flashMessage from './data/flashMessage/reducer'
 
 const rootReducer = combineReducers({
   form: formReducer,
-  authReducer,
+  auth,
+  flashMessage,
 })
 
 export default rootReducer

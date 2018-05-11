@@ -7,14 +7,14 @@ import User from '../models/user'
 export const signup = async (req, res) => {
   const { username, password, email } = req.body
   if (!username) {
-    return res.status(422).json({ username: "can't be blank" })
+    return res.status(422).json({ username: 'Cannot be blank' })
   }
   if (!password) {
-    return res.status(422).json({ password: "can't be blank" })
+    return res.status(422).json({ password: 'Cannot be blank' })
   }
 
   if (!email) {
-    return res.status(422).json({ email: "can't be blank" })
+    return res.status(422).json({ email: 'Cannot be blank' })
   }
   const hashedPassword = await getSaltedHashedPassword(password)
 
@@ -47,16 +47,16 @@ export const signup = async (req, res) => {
 }
 
 export const login = async (req, res) => {
-  const { username, password } = req.body
-  if (!username) {
-    return res.status(422).json({ username: "can't be blank" })
+  const { email, password } = req.body
+  if (!email) {
+    return res.status(422).json({ email: 'Cannot be blank' })
   }
 
   if (!password) {
-    return res.status(422).json({ password: "can't be blank" })
+    return res.status(422).json({ password: 'Cannot be blank' })
   }
 
-  const user = await User.findOne({ username }).catch(error => {
+  const user = await User.findOne({ email }).catch(error => {
     /* eslint-disable no-console */
     console.error(error)
     return res
@@ -65,7 +65,7 @@ export const login = async (req, res) => {
   })
 
   if (!user) {
-    return res.status(422).json({ error: { username: 'Username does not exist' } })
+    return res.status(422).json({ error: { email: 'Email does not exist' } })
   }
 
   if (await isPasswordValid(password, user.password_hash)) {
@@ -73,7 +73,7 @@ export const login = async (req, res) => {
     return res.status(200).json(authUserToJson(token, user))
   }
 
-  return res.status(422).json({ error: { username: 'Username does not exist' } })
+  return res.status(422).json({ error: { email: 'Email does not exist' } })
 }
 
 export const getUserToken = user => {

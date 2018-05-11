@@ -1,0 +1,29 @@
+.login {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 30% auto 30%;
+  grid-template-rows: 20% auto 30%; }
+
+.login__sect {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-content: flex-start;
+  text-align: center; }
+
+.login__sect > * {
+  flex: 1 100%; }
+
+.login__title {
+  height: 10%; }
+
+@media (max-width: 414px) {
+  .login__sect {
+    grid-column-start: 1;
+    grid-column-end: 5;
+    padding-left: 1.2em;
+    padding-right: 1.2em; } }

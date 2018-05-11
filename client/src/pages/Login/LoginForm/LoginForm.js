@@ -5,12 +5,16 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
 import ReduxInputField from '../../../components/ReduxInputField/ReduxInputField'
+import Button from '../../../components/Button/Button'
 import {
   isValidEmail,
   inputFieldNotEmpty,
   isValidMinLength,
 } from '../../../utils/forms/form.validations'
-import { rejects } from 'assert'
+import { loginRequest, loginSuccess, loginFailure } from '../../../store/data/auth/actions'
+import { addFlashMessage } from '../../../store/data/flashMessage/actions'
+
+import './LoginForm.css'
 
 const validate = values => {
   const { email, password } = values
@@ -35,36 +39,80 @@ const validate = values => {
   } else {
     errors.password = 'Cannot be empty'
   }
+  return errors
 }
 
 class LoginForm extends Component {
+  static propTypes = {
+    handleSubmit: PropTypes.func.isRequired,
+    actions: PropTypes.shape({
+      loginRequest: PropTypes.func,
+      loginSuccess: PropTypes.func,
+      loginFailure: PropTypes.func,
+      addFlashMessage: PropTypes.func,
+    }).isRequired,
+  }
+
   submit = values => {
+    const { loginRequest, loginSuccess, loginFailure, addFlashMessage } = this.props.actions
+
+    loginRequest()
+    return new Promise((resolve, reject) => {
+      axios.post('http://localhost:5000/auth/login', values)
+        .then(response => {
+          if (response) {
+            const { data } = response
+            loginSuccess(data)
+            addFlashMessage({ message: 'Successfully logged in', category: 'success' })
+          }
+        })
+        .catch(err => {
+          const { error } = err.response.data
+          loginFailure(error)
+          addFlashMessage({ message: 'Login failed', category: 'danger' })
+          reject(new SubmissionError(error))
+        })
+    })
   }
 
   render() {
-    const handleSubmit = this.props
+    const { handleSubmit } = this.props
     return (
-      <div className="login_sect">
-        <h1 className="login_title">Krello Login Form</h1>
-        <form className="form" onSubmit={handleSubmit(this.submit)}>
-          <Field
-            label="Email"
-            name="email"
-            component={ReduxInputField}
-            type="text"
-            placeholder="Enter your email address"
-          />
-          <Field
-            label="Password"
-            name="password"
-            component={ReduxInputField}
-            type="text"
-            placeholder="Enter your password"
-          />
-        </form>
-      </div>
+      <form className="form" onSubmit={handleSubmit(this.submit)}>
+        <Field
+          label="Email"
+          name="email"
+          component={ReduxInputField}
+          type="text"
+          placeholder="Enter your email address"
+        />
+        <Field
+          label="Password"
+          name="password"
+          component={ReduxInputField}
+          type="text"
+          placeholder="Enter your password"
+        />
+        <Button
+          type="submit"
+          text="Click to register"
+          onClick={() => { }}
+          style={{ backgroundColor: '#62b856' }}
+        />
+      </form>
     )
   }
 }
 
-export default connect(null, null)(reduxForm({ validate, form: 'login' })(LoginForm))
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({
+      loginRequest,
+      loginSuccess,
+      loginFailure,
+      addFlashMessage,
+    }, dispatch),
+  }
+}
+
+export default connect(null, mapDispatchToProps)(reduxForm({ validate, form: 'login' })(LoginForm))

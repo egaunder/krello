@@ -1,0 +1,8 @@
+.flash-message {
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  position: absolute;
+  top: 5%;
+  left: 40%;
+  width: 20%; }

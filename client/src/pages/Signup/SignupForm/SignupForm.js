@@ -12,7 +12,7 @@ import {
   isValidMinLength,
   isValidMaxLength,
 } from '../../../utils/forms/form.validations'
-import { signupRequest, signupSuccess, signupFailure } from '../../../store/auth/actions'
+import { signupRequest, signupSuccess, signupFailure } from '../../../store/data/auth/actions'
 import './SignupForm.css'
 
 const validate = values => {
@@ -77,9 +77,9 @@ class SignupForm extends Component {
           resolve(data)
           return this.context.router.history.push('/')
         })
-        .catch(err => {
-          signupFailure(err.response.data.error)
-          return reject(new SubmissionError(err.response.data.error))
+        .catch(error => {
+          signupFailure(error.response.data.error)
+          return reject(new SubmissionError(error.response.data.error))
         })
     })
   }
