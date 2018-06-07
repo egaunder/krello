@@ -1,0 +1,15 @@
+@import '../../utils/styles/common_colors';
+
+.submit__button {
+  background-color: $turquoise;
+  outline: none;
+  border: none;
+  border-radius: 3px;
+  color: white;
+  line-height: 1.5em;
+  font-size: 1em;
+  &:hover {
+    transition-duration: 200ms;
+    background-color: $greensea;
+  }
+}

@@ -1,0 +1,15 @@
+@import '../../utils/styles/common_colors.scss';
+
+.signup__button {
+  outline: none;
+  border: none;
+  background-color: $sunflower;
+  border-radius: 3px;
+  line-height: 1.5em;
+  font-size: 1em;
+  color: white;
+  &:hover {
+    transition-duration: 200ms;
+    background-color: $orange;
+  }
+}

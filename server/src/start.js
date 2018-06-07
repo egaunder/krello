@@ -19,6 +19,7 @@ import authRoutes from './routes/authRoutes'
 import boardRoutes from './routes/boardRoutes'
 import listRoutes from './routes/listRoutes'
 import itemRoutes from './routes/itemRoutes'
+import testRoutes from './routes/testRoutes'
 
 const startServer = async ({ port = 5000 } = {}) => {
   const ENVIRONMENT = process.env.NODE_ENV || 'development'
@@ -47,6 +48,7 @@ const startServer = async ({ port = 5000 } = {}) => {
   app.use(express.static(path.resolve(__dirname, '../../', 'client', 'build')))
 
   // Setup routes
+  app.use('/test', testRoutes)
   app.use('/auth', authRoutes)
   app.use('/api/boards', boardRoutes)
   app.use('/api/lists', listRoutes)

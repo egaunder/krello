@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`[SignupButton] should render correctly 1`] = `
-<button
-  id="signup-button"
->
-  Signup
-</button>
-`;

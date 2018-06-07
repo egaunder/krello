@@ -1,0 +1,11 @@
+.login__button {
+  background-color: #2ecc71;
+  border: none;
+  outline: none;
+  border-radius: 3px;
+  line-height: 1.5em;
+  font-size: 1em;
+  color: white; }
+  .login__button:hover {
+    background-color: #27ae60;
+    transition-duration: 200ms; }

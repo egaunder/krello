@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import ReduxInputField from '../../../components/ReduxInputField/ReduxInputField'
-import Button from '../../../components/Button/Button'
 import {
   isValidEmail,
   inputFieldNotEmpty,
@@ -122,12 +121,12 @@ class SignupForm extends Component {
             type="text"
             placeholder="Enter your password confirmation"
           />
-          <Button
+          {/* <Button
             type="submit"
             text="Click to register"
             onClick={() => { }}
             style={{ backgroundColor: '#62b856' }}
-          />
+          /> */}
         </form>
       </div>
     )

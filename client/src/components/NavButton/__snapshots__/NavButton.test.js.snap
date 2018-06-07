@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`NavButton should render correctly 1`] = `
-<div
-  className="nav-button-wrapper"
-/>
-`;

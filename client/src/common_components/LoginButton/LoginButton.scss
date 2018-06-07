@@ -1,0 +1,15 @@
+@import '../../utils/styles/common_colors.scss';
+
+.login__button {
+  background-color: $emerald;
+  border: none;
+  outline: none;
+  border-radius: 3px;
+  line-height: 1.5em;
+  font-size: 1em;
+  color: white;
+  &:hover {
+    background-color: $nephritis;
+    transition-duration: 200ms;
+  }
+}

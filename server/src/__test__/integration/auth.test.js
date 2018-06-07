@@ -63,7 +63,7 @@ test('should not be able to signup a user without password', async done => {
     })
 })
 
-test('should be able to signup a  valid user', async done => {
+test('should be able to signup a valid user', async done => {
   const username = 'egaunder'
   const email = 'egaunder@test.com'
   const password = '1234'

@@ -1,0 +1,11 @@
+.signup__button {
+  outline: none;
+  border: none;
+  background-color: #f1c40f;
+  border-radius: 3px;
+  line-height: 1.5em;
+  font-size: 1em;
+  color: white; }
+  .signup__button:hover {
+    transition-duration: 200ms;
+    background-color: #f39c12; }
